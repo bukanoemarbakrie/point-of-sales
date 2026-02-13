@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object JavasScript</title>
+  </head>
+  <body>
+    <h3>Object</h3>
+    <script>
+      // const siswa = []; array
+      const siswa = {
+        nama: "Jeje",
+        umur: 23,
+        jurusan: "Web",
+      }; //   :object
+      siswa.alamat = "Bekasi";
+      siswa.nama = "Jeje";
+      delete siswa.alamat;
+      siswa.gender = "Perempuan";
+
+      console.log(siswa);
+      console.log(siswa.nama);
+      console.log(siswa.umur);
+      console.log(siswa.jurusan);
+      console.log(siswa.gender);
+
+      for (let key in siswa) {
+        console.log(`${key} : ${siswa[key]}`);
+      }
+
+      Object.keys(siswa).forEach((key) => {
+        console.log(`${key} : ${siswa[key]}`);
+      });
+
+      const peserta = [
+        {
+          nama: "Jeje",
+          umur: 23,
+          jurusan: "Web",
+          nilai: 90,
+        },
+
+        {
+          nama: "Wawan",
+          umur: 33,
+          jurusan: "Web",
+          nilai: 80,
+        },
+
+        {
+          nama: "Budi",
+          umur: 27,
+          jurusan: "Web",
+          nilai: 70,
+        },
+      ];
+
+      peserta.push({ nama: "Andi", umur: 28, jurusan: "web", nilai: 90 });
+      //   splice()
+      //   findIndex
+
+      const remove = peserta.splice(3, 1); // delete index
+      const index = peserta.findIndex((item) => item.nama === "Jeje");
+      peserta.push({ nama: "Andi", umur: 28, jurusan: "web", nilai: 90 });
+      if (index !== -1) {
+        peserta.splice(index, 1);
+      }
+      console.log(peserta[0].nama);
+      const pesertaBaru = peserta.filter((item) => item.nama !== "Andi");
+      console.log(pesertaBaru);
+      console.log(peserta);
+    </script>
+  </body>
+</html>

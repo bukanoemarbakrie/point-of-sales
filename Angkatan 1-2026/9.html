@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>quiz 2</title>
+  </head>
+  <body>
+    <!-- 
+       buatlah sistem passing grade 
+       siswa dinyatakan lulus ketika memenuhi semua syarat sebagai berikut:
+       1. Nilai teori 75
+       2. Nilai praktek minimal 80
+       3. kehadiran minimal 90%
+       4. Tidak memiliki pelanggaran berat
+
+       ketentuan 
+       jika rata-rata > 90 maka lulus dengan predikat sangat baik 
+       rata-rata >85 lulus denga predikat baik
+       selain itu lulus
+
+       kehadiran kurang dari 90% tidak lulus (kehadiran kurang)
+       nilai teori kurang dari 75 tidak lulus (teori kurang) 
+       nilai praktek kurang dari 80 tidak lulus (praktek kurang)
+       jika ada pelanggaran berat tidak lulus (pelanggaran disiplin)
+
+       output : Reza Ibrahim
+       rata-rata : 81.5
+       status : lulus
+
+       (nilai teori + nilai praktek) /2
+    -->
+    <script>
+      let nama = "Jessica Maulinasari";
+      let nilai_teori = 100;
+      let nilai_praktek = 80;
+      let kehadiran_persen = 90;
+      let pelanggaran = true;
+      let status = "";
+      let rata_rata = (nilai_teori + nilai_praktek) / 2;
+
+      if (kehadiran_persen < 90) {
+        status = "Tidak Lulus (Kehadiran Kurang)";
+      } else if (nilai_teori < 75) {
+        status = "Tidak Lulus (Nilai Teori Kurang)";
+      } else if (nilai_praktek < 80) {
+        status = "Tidak Lulus (Nilai Praktek Kurang)";
+      } else if (pelanggaran == true) {
+        status = "Tidak Lulus (Pelanggaran Disiplin)";
+      } else if (rata_rata > 90) {
+        status = "Lulus (Predikat Sangat Baik)";
+      } else if (rata_rata > 85) {
+        status = "Lulus (Predikat Baik)";
+      } else {
+        status = "Lulus";
+      }
+
+      console.log(`Nama: ${nama}`);
+      console.log(`Rata-rata Nilai: ${rata_rata}`);
+      console.log(`Status: ${status}`);
+    </script>
+  </body>
+</html>

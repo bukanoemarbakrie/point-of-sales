@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JavaScript</title>
+  </head>
+  <body>
+    <script>
+      // variabel : sebuah wadah yang bisa menampung apa saja
+      // let: tidak redeclare variabel, var const;
+      const nama = "jeje";
+      let hp = "087808009789";
+      hp = "089789767985";
+      var alamat = "bekasi";
+      alamat = "jakarta";
+
+      // {}: object, []: array
+      const peserta = {
+        nama: "budi",
+      };
+      //   immutable
+      const pesertabaru = {
+        ...peserta,
+        nama: "wawan",
+      };
+      peserta.alamat = "jakarta";
+      console.log(pesertabaru); // {nama: wawan, nama: budi}
+
+      document.write = "tes kami sedang belajar javascript";
+      console.log(alamat);
+      console.log(hp);
+      console.log(nama);
+    </script>
+  </body>
+</html>

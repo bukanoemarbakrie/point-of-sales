@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>Data siswa</h3>
+
+    <input type="text" id="nama" placeholder="Masukan Nama" />
+    <input type="text" id="umur" placeholder="Masukan Umur" />
+    <input type="text" id="jurusan" placeholder="Masukan Jurusan" />
+    <input type="text" id="nilai" placeholder="Masukan Nilai" />
+    <button onclick="" id="tambah">Tambah</button>
+    <br />
+    <table border="1" width="100%">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nama</th>
+          <th>Umur</th>
+          <th>Jurusan</th>
+          <th>Nilai</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tdata"></tbody>
+    </table>
+  </body>
+
+  <script>
+    const siswa = [
+      {
+        id: 1,
+        nama: "Jeje",
+        umur: 23,
+        jurusan: "Web",
+        nilai: 90,
+      },
+      {
+        id: 2,
+        nama: "Wawan",
+        umur: 33,
+        jurusan: "Web",
+        nilai: 80,
+      },
+      {
+        id: 3,
+        nama: "Rudi",
+        umur: 27,
+        jurusan: "Web",
+        nilai: 70,
+      },
+    ];
+
+    // function: menghindari menulis kode blok yang sama, dan bisa dipanggil berulang-ulang
+    function tampilkanSiswa() {
+      const tdata = document.getElementById("tdata");
+
+      tdata.innerHTML = "";
+      siswa.forEach(function (item) {
+        tdata.innerHTML += `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.nama}</td>
+                <td>${item.umur}</td>
+                <td>${item.jurusan}</td>
+                <td>${item.nilai}</td>
+                <td><button onclick='removeSiswa(${item.id})'>Hapus</button></td>
+            </tr>
+         `;
+      });
+    }
+
+    const tambahSiswa = () => {
+      const nama = document.getElementById("nama").value;
+      const jurusan = document.getElementById("jurusan").value;
+      const umur = document.getElementById("umur").value;
+      const nilai = document.getElementById("nilai").value;
+
+      siswa.push({
+        id: siswa.length + 1,
+        nama: nama,
+        jurusan: jurusan,
+        umur: umur,
+        nilai: nilai,
+      });
+
+      tampilkanSiswa();
+    };
+
+    const removeSiswa = (id) => {
+      const index = siswa.findIndex((item) => item.id === id);
+      siswa.splice(index, 1);
+
+      tampilkanSiswa();
+    };
+
+    document.getElementById("tambah").addEventListener("click", tambahSiswa);
+
+    tampilkanSiswa();
+  </script>
+</html>

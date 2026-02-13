@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+header {
+  background-color: pink;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+nav {
+  background-color: palevioletred;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+main {
+  display: flex;
+  min-height: 80vh;
+}
+
+aside {
+  width: 200px;
+  background: rgb(253, 214, 221);
+  color: palevioletred;
+  padding: 15px;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+}
+
+aside ul li {
+  margin-bottom: 15px;
+}
+
+aside ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+section {
+  flex: 1;
+  background-color: aliceblue;
+  padding: 10px;
+  color: palevioletred;
+}
+footer {
+  background-color: rgb(195, 245, 247);
+  color: palevioletred;
+  text-align: center;
+  padding: 10px;
+}
