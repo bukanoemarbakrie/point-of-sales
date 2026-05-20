@@ -1,16 +1,17 @@
 <?php
 session_start();
 session_regenerate_id();
+include "config/koneksi.php";
+
 if (isset($_POST['login'])) {
   $email = $_POST ['email'];
-  $password = $_POST ['password'];
+  $password = sha1($_POST ['password']);
 
-  $dataNama = "Darussalam Ridho";
-  $dataEmail = "darussalam@gmail.com";
-  $dataPassword = "1";
+  $login = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
+  $rowLogin = mysqli_fetch_assoc($login);
 
-  if ($email == $dataEmail && $password == $dataPassword){
-    $_SESSION['NAMA'] = $dataNama;
+  if ($email == $rowLogin['email'] && $password == $rowLogin ['password']){
+    $_SESSION['NAMA'] = $rowLogin['name'];
     header ("location:main.php?page=dashboard");
   } else {
     header ("location:index.php");
