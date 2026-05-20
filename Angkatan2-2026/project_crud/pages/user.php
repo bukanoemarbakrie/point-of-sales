@@ -5,6 +5,15 @@ include "config/koneksi.php";
 $selectUser = mysqli_query($koneksi, "SELECT * FROM users");
 $rows = mysqli_fetch_all($selectUser, MYSQLI_ASSOC);
 
+if (isset($_GET['idDelete'])) {
+    $id = $_GET['idDelete'] ?? 0;
+    $delete = mysqli_query($koneksi, "DELETE FROM users WHERE id='$id'");
+    header('location:?page=user');
+    exit();
+}
+
+
+
 ?>
 
 
@@ -47,9 +56,9 @@ $rows = mysqli_fetch_all($selectUser, MYSQLI_ASSOC);
                     <td><?php echo $row['name'] ?></td>
                     <td><?php echo $row['email'] ?></td>
                     <td>
-                        <a href="?page=user-create-edit&idEdit=<?php echo $row ['id'] ?>" class="btn btn-success">Edit</a>
-                        <form action="" method="post" class="d-inline">
-                            <button class="btn btn-danger">Delete</button>
+                        <a href="?page=user-create-edit&idEdit=<?php echo $row['id'] ?>" class="btn btn-success">Edit</a>
+                        <form action="?page=user&idDelete=<?php echo $row['id'] ?>" method="post" class="d-inline">
+                            <button class="btn btn-danger" onclick="return confirm ('YAKIN MAU DI DELETE?')">Delete</button>
                         </form>
                     </td>
                 </tr>
