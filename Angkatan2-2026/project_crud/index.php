@@ -3,6 +3,15 @@ session_start();
 session_regenerate_id();
 include "config/koneksi.php";
 
+// php
+// $, const, define
+// var system/superglobal : $_POST, $_SESSION, $_SERVER
+// $_POST : ['login', 'email', 'password']
+// !isset : tidak kosong, kosong
+// !empty : kosong, tidak kosong
+// $_SESSION: nyimpen data didalam memory browser
+// $_COOKIES : nyimpen data didalam memory browser 
+
 if (isset($_POST['login'])) {
   $email = $_POST ['email'];
   $password = sha1($_POST ['password']);
@@ -17,6 +26,7 @@ if (isset($_POST['login'])) {
     header ("location:index.php");
   }
 }
+
 ?>
 
 
