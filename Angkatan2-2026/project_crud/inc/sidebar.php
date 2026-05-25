@@ -4,14 +4,7 @@ include "config/koneksi.php";
 
 $menus = mysqli_query($koneksi, "SELECT * FROM menus WHERE parent_id IS NULL AND is_active=1 ORDER BY sort_order ASC ");
 
-
-
 ?>
-
-
-
-
-
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
@@ -104,7 +97,7 @@ $menus = mysqli_query($koneksi, "SELECT * FROM menus WHERE parent_id IS NULL AND
 
           <!-- kalo sun menu tidak ada -->
         <?php else: ?>
-          <a href="main.php?page=dashboard" class="menu-link">
+          <a href="<?php echo $menu['url'] ?>" class="menu-link">
             <i class="menu-icon tf-icons bx <?php echo $menu['icon'] ?>"></i>
             <div data-i18n="Analytics"><?php echo $menu['name'] ?> </div>
           </a>
