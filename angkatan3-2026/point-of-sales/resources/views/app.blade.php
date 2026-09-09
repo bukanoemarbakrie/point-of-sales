@@ -4,37 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? "Point of Sales" }}</title>
+    <title>@yield('title', 'Point of Sales') - Spark Admin</title>
 
     <!-- SEO Optimization -->
-    <meta name="description" content="Blank Page - Spark Admin Premium Bootstrap 5 Admin Dashboard Template">
+    <meta name="description" content="Point of Sales - Spark Admin Premium Bootstrap 5 Admin Dashboard Template">
     <meta name="author" content="Spark Admin Team">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('assets/assets/images/favicon.ico') }}">
 
-    <!-- Local Third-Party Libraries -->
-    <link rel="stylesheet" href="assets/libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('assets/assets/libs/apexcharts/apexcharts.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/assets/libs/flatpickr/flatpickr.min.css') }}">
-
-    <!-- Main Design System & Custom Stylesheet -->
-    <link rel="stylesheet" href="{{ asset('assets/assets/css/main.css') }}">
-
-
+    @include('inc.css')
 </head>
 
 <body>
 
     <!-- ==========================================
-         START: Sidebar Component
-         Highly polished, dark-green navigation
-         ========================================== -->
+        START: Sidebar Component
+        Highly polished, dark-green navigation
+        ========================================== -->
     <div class="sidebar-wrapper" id="sidebar">
         <!-- Brand Logo / Identity -->
-        <a href="index.html" class="sidebar-brand">
+        <a href="{{ route('dashboard.index') }}" class="sidebar-brand">
             <i class="bi bi-asterisk"></i>
-            <span>Spark Admin</span>
+            <span>Umar - Point of Sales</span>
         </a>
 
         <!-- Navigation Menu -->
@@ -44,9 +33,33 @@
                 <div class="sidebar-menu-title">Menu</div>
                 <ul class="sidebar-menu-list">
                     <li class="sidebar-menu-item">
-                        <a href="index.html" class="sidebar-menu-link" id="menu-overview" title="Overview">
+                        <a href="{{ route('dashboard.index') }}" class="sidebar-menu-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}" id="menu-dashboard" title="Dashboard">
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('user.index') }}" class="sidebar-menu-link {{ request()->routeIs('user.*') ? 'active' : '' }}" id="menu-user" title="User">
+                            <i class="bi bi-people-fill"></i>
+                            <span>User</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('category.index') }}" class="sidebar-menu-link {{ request()->routeIs('category.*') ? 'active' : '' }}" id="menu-category" title="Category">
+                            <i class="bi bi-tags-fill"></i>
+                            <span>Category</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('role.index') }}" class="sidebar-menu-link {{ request()->routeIs('role.*') ? 'active' : '' }}" id="menu-role" title="Role">
+                            <i class="bi bi-shield-fill-check"></i>
+                            <span>Role</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('product.index') }}" class="sidebar-menu-link {{ request()->routeIs('product.*') ? 'active' : '' }}" id="menu-product" title="Product">
+                            <i class="bi bi-box-seam-fill"></i>
+                            <span>Product</span>
                         </a>
                     </li>
                 </ul>
@@ -57,19 +70,19 @@
                 <div class="sidebar-menu-title">Components</div>
                 <ul class="sidebar-menu-list">
                     <li class="sidebar-menu-item">
-                        <a href="tables-basic.html" class="sidebar-menu-link" id="menu-basictables" title="Basic Tables">
+                        <a href="#" class="sidebar-menu-link" id="menu-basictables" title="Basic Tables">
                             <i class="bi bi-table"></i>
                             <span>Basic Tables</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="ui-forms.html" class="sidebar-menu-link" id="menu-uiforms" title="Forms and Input">
+                        <a href="#" class="sidebar-menu-link" id="menu-uiforms" title="Forms and Input">
                             <i class="bi bi-input-cursor-text"></i>
                             <span>Forms & Input</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="ui-buttons.html" class="sidebar-menu-link" id="menu-uibuttons" title="Buttons">
+                        <a href="#" class="sidebar-menu-link" id="menu-uibuttons" title="Buttons">
                             <i class="bi bi-menu-button-wide-fill"></i>
                             <span>Buttons & Alerts</span>
                         </a>
@@ -82,46 +95,45 @@
                 <div class="sidebar-menu-title">Pages</div>
                 <ul class="sidebar-menu-list">
                     <li class="sidebar-menu-item">
-                        <a href="page-blank.html" class="sidebar-menu-link active" id="menu-blankpage" title="Blank Page">
+                        <a href="#" class="sidebar-menu-link" id="menu-blankpage" title="Blank Page">
                             <i class="bi bi-file-earmark"></i>
                             <span>Blank Page</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="page-login.html" class="sidebar-menu-link" id="menu-loginpage" title="Login Page">
+                        <a href="{{ route('login') }}" class="sidebar-menu-link" id="menu-loginpage" title="Login Page">
                             <i class="bi bi-box-arrow-in-right"></i>
                             <span>Login Screen</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="page-404.html" class="sidebar-menu-link" id="menu-404" title="404 Page">
+                        <a href="#" class="sidebar-menu-link" id="menu-404" title="404 Page">
                             <i class="bi bi-slash-circle"></i>
                             <span>Error 404</span>
                         </a>
                     </li>
-
                 </ul>
             </div>
         </div>
 
         <!-- Sidebar Profile Card (Dynamic Footer) -->
         <div class="sidebar-profile">
-            <img src="assets/images/avatar.png" alt="Administrator" class="sidebar-profile-img"
+            <img src="{{ asset('assets/images/avatar.png') }}" alt="Administrator" class="sidebar-profile-img"
                 onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
             <div class="sidebar-profile-info">
-                <div class="sidebar-profile-name">Administrator</div>
-                <div class="sidebar-profile-email">admin@email.com</div>
+                <div class="sidebar-profile-name">{{ Auth::user()->name ?? 'Administrator' }}</div>
+                <div class="sidebar-profile-email">{{ Auth::user()->email ?? 'admin@email.com' }}</div>
             </div>
         </div>
     </div>
     <!-- ==========================================
-         END: Sidebar Component
-         ========================================== -->
+        END: Sidebar Component
+        ========================================== -->
 
 
     <!-- ==========================================
-         START: Main Content Area
-         ========================================== -->
+        START: Main Content Area
+        ========================================== -->
     <div class="main-wrapper">
 
         <!-- START: Top Navbar Component -->
@@ -146,9 +158,9 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-quick-action" aria-labelledby="quick-actions-dropdown">
                         <li class="dropdown-header">Quick Action Shortcuts</li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-plus"></i> New Invoice</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus"></i> New User</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-seam"></i> New Product</a></li>
+                        <li><a class="dropdown-item" href="{{ route('category.create') }}"><i class="bi bi-tag-plus"></i> New Category</a></li>
+                        <li><a class="dropdown-item" href="{{ route('product.create') }}"><i class="bi bi-box-seam"></i> New Product</a></li>
+                        <li><a class="dropdown-item" href="{{ route('user.create') }}"><i class="bi bi-person-plus"></i> New User</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -225,56 +237,36 @@
                 <div class="dropdown ms-2">
                     <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false" id="profile-dropdown">
-                        <img src="assets/images/avatar.png" alt="Profile Image" class="navbar-profile-img">
-                        <span class="navbar-profile-name d-none d-md-inline">Administrator</span>
+                        <img src="{{ asset('assets/assets/images/avatar.png') }}" alt="Profile Image" class="navbar-profile-img">
+                        <span class="navbar-profile-name d-none d-md-inline">{{ Auth::user()->name ?? 'Administrator' }}</span>
                         <i class="bi bi-chevron-down navbar-profile-caret"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profile-dropdown">
-                        <li class="dropdown-header">Welcome !</li>
+                        <li class="dropdown-header">Welcome, {{ Auth::user()->name ?? 'User' }}!</li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> My Account</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-lock"></i> Lock Screen</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="page-login.html"><i class="bi bi-box-arrow-right"></i>
-                                Logout</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
         </header>
         <!-- END: Top Navbar Component -->
 
-        <!-- START: Page Header Banner -->
-        <div class="page-header">
-            <div>
-                <h1 class="page-title">Blank Page</h1>
-                <p class="page-subtitle">A blank starter template page for custom extensions.</p>
-            </div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-muted-green">Home</a></li>
-                    <li class="breadcrumb-item active text-main" aria-current="page">Blank Page</li>
-                </ol>
-            </nav>
-        </div>
-        <!-- END: Page Header Banner -->
+        <!-- START: Content Area -->
+        @yield('content')
+        <!-- END: Content Area -->
 
-        <!-- START: Blank Page Content Area -->
-        <div class="card p-4 border-light shadow-sm text-center">
-            <div>
-                <div class="mb-4 text-lime empty-state-icon">
-                    <i class="bi bi-file-earmark-fill"></i>
-                </div>
-                <h3 class="mb-2">Your Content Starts Here</h3>
-                <p class="text-muted-green mb-4">Use this blank page starter template to build custom dashboard views, tables,
-                    forms, or any modules required for your Spark Admin system.</p>
-            </div>
-        </div>
-        <!-- END: Blank Page Content Area -->
-
-
-        <!-- START: Footer Component -->
         <footer class="footer-custom">
             <div class="footer-left">
                 <span class="footer-logo">
@@ -294,14 +286,12 @@
                 </ul>
             </div>
         </footer>
-        <!-- END: Footer Component -->
 
     </div>
-    <!-- ==========================================
-         END: Main Content Area
-         ========================================== -->
 
-    @include('inc.js')
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Local dashboard interactions controller -->
+    <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

@@ -29,7 +29,7 @@
             <!-- Brand Identity -->
             <a href="index.html" class="login-brand text-decoration-none">
                 <i class="bi bi-asterisk"></i>
-                <span>Spark Admin</span>
+                <span>Umar - Point of Sales</span>
             </a>
 
             <p class="login-subtitle">Please sign in to access your dashboard</p>

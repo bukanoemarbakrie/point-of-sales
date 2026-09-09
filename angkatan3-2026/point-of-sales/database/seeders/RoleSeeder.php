@@ -13,18 +13,18 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // eloquent : query builder/orm laravel
-        // insert into, select, update, delete
-        // model itu acuan ke table
         Role::insert([
             [
-                'name' => 'Administrator'
+                'name' => 'Administrator',
+                'is_active' => 1
             ],
             [
-                'name' => 'Cashier'
+                'name' => 'Cashier',
+                'is_active' => 1
             ],
             [
-                'name' => 'Leader'
+                'name' => 'Leader',
+                'is_active' => 1
             ],
         ]);
     }
