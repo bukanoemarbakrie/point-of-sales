@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title ?? "Point of Sales" }}</title>
+    <title>{{ $title ?? "Point of Sales" }}</title>
 
     <!-- SEO Optimization -->
     <meta name="description" content="Blank Page - Spark Admin Premium Bootstrap 5 Admin Dashboard Template">
