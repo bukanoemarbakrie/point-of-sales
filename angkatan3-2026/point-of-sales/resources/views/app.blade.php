@@ -62,6 +62,12 @@
                             <span>Product</span>
                         </a>
                     </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('order.index') }}" class="sidebar-menu-link {{ request()->routeIs('order.*') ? 'active' : '' }}" id="menu-order" title="Order">
+                            <i class="bi bi-cart-fill"></i>
+                            <span>Transaction</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 

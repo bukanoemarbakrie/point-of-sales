@@ -6,14 +6,13 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->orderBy('id', 'DESC')->get();
         $title = "Data Product";
+        $products = Product::with('category')->orderBy('id', 'DESC')->get();
         return view('product.index', compact('title', 'products'));
     }
 
@@ -27,24 +26,26 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:products,name',
+            'product_name' => 'required|string|max:255|unique:products,product_name',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
+            'product_price' => 'required|numeric|min:0',
             'qty' => 'required|integer|min:0',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description' => 'nullable|string'
+            'product_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_description' => 'nullable|string',
+            'is_active' => 'nullable|in:0,1'
         ]);
 
         $data = [
-            'name' => $request->name,
+            'product_name' => $request->product_name,
             'category_id' => $request->category_id,
-            'price' => $request->price,
+            'product_price' => $request->product_price,
             'qty' => $request->qty ?? 0,
-            'description' => $request->description
+            'product_description' => $request->product_description,
+            'is_active' => $request->is_active ?? 1
         ];
 
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('products', 'public');
+        if ($request->hasFile('product_photo')) {
+            $data['product_photo'] = $request->file('product_photo')->store('products', 'public');
         }
 
         Product::create($data);
@@ -65,28 +66,29 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|string|max:255|unique:products,name,' . $id,
+            'product_name' => 'required|string|max:255|unique:products,product_name,' . $id,
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
+            'product_price' => 'required|numeric|min:0',
             'qty' => 'required|integer|min:0',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description' => 'nullable|string'
+            'product_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_description' => 'nullable|string',
+            'is_active' => 'nullable|in:0,1'
         ]);
 
         $data = [
-            'name' => $request->name,
+            'product_name' => $request->product_name,
             'category_id' => $request->category_id,
-            'price' => $request->price,
+            'product_price' => $request->product_price,
             'qty' => $request->qty ?? 0,
-            'description' => $request->description
+            'product_description' => $request->product_description,
+            'is_active' => $request->is_active ?? 1
         ];
 
-        if ($request->hasFile('photo')) {
-            // Delete old photo
-            if ($product->photo) {
-                Storage::disk('public')->delete($product->photo);
+        if ($request->hasFile('product_photo')) {
+            if ($product->product_photo) {
+                Storage::disk('public')->delete($product->product_photo);
             }
-            $data['photo'] = $request->file('photo')->store('products', 'public');
+            $data['product_photo'] = $request->file('product_photo')->store('products', 'public');
         }
 
         $product->update($data);
@@ -98,9 +100,8 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // Delete photo
-        if ($product->photo) {
-            Storage::disk('public')->delete($product->photo);
+        if ($product->product_photo) {
+            Storage::disk('public')->delete($product->product_photo);
         }
 
         $product->delete();

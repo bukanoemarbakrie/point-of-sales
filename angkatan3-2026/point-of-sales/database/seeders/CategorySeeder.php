@@ -15,15 +15,15 @@ class CategorySeeder extends Seeder
     {
         Category::insert([
             [
-                'name' => 'Coffee',
+                'category_name' => 'Coffee',
                 'is_active' => 1
             ],
             [
-                'name' => 'Non-Coffee',
+                'category_name' => 'Non-Coffee',
                 'is_active' => 1
             ],
             [
-                'name' => 'Snack',
+                'category_name' => 'Snack',
                 'is_active' => 1
             ],
         ]);

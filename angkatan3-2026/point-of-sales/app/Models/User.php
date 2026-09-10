@@ -11,6 +11,26 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property int|null $role_id
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Role|null $role
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|User where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|User find($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|User findOrFail($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|User create(array $attributes = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|User update(array $attributes = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|User delete()
+ * @method static \Illuminate\Database\Eloquent\Builder|User with($relations)
+ * @method static \Illuminate\Database\Eloquent\Builder|User orderBy($column, $direction = 'asc')
+ */
 #[Fillable(['name', 'email', 'password', 'role_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -18,11 +38,6 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -31,13 +46,11 @@ class User extends Authenticatable
         ];
     }
 
-    // Relasi ke Role
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    // Method untuk cek role
     public function hasRole(string $roleName): bool
     {
         return $this->role && $this->role->name === $roleName;

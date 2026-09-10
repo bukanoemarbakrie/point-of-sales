@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -26,7 +26,7 @@ class UserController extends Controller
     public function create()
     {
         $title = 'Create New User';
-        $roles = Role::where('is_active', 1)->get();
+        $roles = Role::all(); // ← Hapus where('is_active', 1)
         return view('user.create', compact('title', 'roles'));
     }
 
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         $title = 'Edit User';
         $user = User::with('role')->findOrFail($id);
-        $roles = Role::where('is_active', 1)->get();
+        $roles = Role::all(); // ← Hapus where('is_active', 1)
         return view('user.edit', compact('title', 'user', 'roles'));
     }
 
@@ -103,17 +103,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
 
-        // Cegah menghapus user sendiri - cara alternatif
-        $currentUserId = auth()->user()->id ?? auth()->id();
-
-        if ($currentUserId == $user->id) {
+        // Cegah menghapus user sendiri
+        if (Auth::id() == $user->id) {
             return redirect()->route('user.index')->with('error', 'You cannot delete your own account!');
         }
 

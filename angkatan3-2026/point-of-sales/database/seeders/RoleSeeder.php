@@ -8,24 +8,12 @@ use App\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Role::insert([
-            [
-                'name' => 'Administrator',
-                'is_active' => 1
-            ],
-            [
-                'name' => 'Cashier',
-                'is_active' => 1
-            ],
-            [
-                'name' => 'Leader',
-                'is_active' => 1
-            ],
+            ['name' => 'Administrator'],
+            ['name' => 'Cashier'],
+            ['name' => 'Leader'],
         ]);
     }
 }
