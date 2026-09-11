@@ -1,12 +1,12 @@
-/* 
+/*
 ========================================================================
    BOOTSTRAP 5 ADMIN TEMPLATE - SPARK ADMIN
    DASHBOARD CORE JAVASCRIPT MODULE
    Developed with premium UI/UX standards
 
    Template Name: Spark Admin
-   Version: 1.0 
-   Author: Spark Admin Team 
+   Version: 1.0
+   Author: Spark Admin Team
    Email: hello.sparkadmin@gmail.com
    URL: https://sparkadmin.web.id
 ========================================================================
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------------------------------
     const sidebar = document.querySelector('.sidebar-wrapper');
     const toggleBtn = document.querySelector('.sidebar-toggle-btn');
-    
+
     // Create and append backdrop overlay for mobile sidebar
     let overlay = document.createElement('div');
     overlay.className = 'sidebar-overlay';
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------------------------------
     const datePickerTrigger = document.querySelector('#date-picker-trigger');
     const selectedRangeText = document.querySelector('#selected-date-range');
-    
+
     if (datePickerTrigger && selectedRangeText) {
         flatpickr(datePickerTrigger, {
             mode: 'range',
@@ -349,30 +349,42 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // -----------------------------------------------------------------
-    // 6. Desktop Sidebar Minimize Interaction
-    // -----------------------------------------------------------------
-    const desktopToggleBtn = document.querySelector('#desktop-sidebar-toggle');
-    if (desktopToggleBtn) {
-        desktopToggleBtn.addEventListener('click', function () {
-            document.body.classList.toggle('sidebar-minimized');
-            
-            // Toggle icon direction
-            const icon = desktopToggleBtn.querySelector('i');
-            if (icon) {
-                if (document.body.classList.contains('sidebar-minimized')) {
-                    icon.className = 'bi bi-chevron-bar-right';
-                } else {
-                    icon.className = 'bi bi-chevron-bar-left';
-                }
-            }
-            
-            // Trigger a window resize event so that charts (ApexCharts) redraw correctly
-            setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-            }, 300);
-        });
+// 6. Desktop Sidebar Minimize Interaction
+// -----------------------------------------------------------------
+const desktopToggleBtn = document.querySelector('#desktop-sidebar-toggle');
+if (desktopToggleBtn) {
+    // Restore state dari localStorage
+    if (localStorage.getItem('sidebarMinimized') === 'true') {
+        document.body.classList.add('sidebar-minimized');
+        const icon = desktopToggleBtn.querySelector('i');
+        if (icon) icon.className = 'bi bi-chevron-bar-right';
     }
 
+    desktopToggleBtn.addEventListener('click', function () {
+        document.body.classList.toggle('sidebar-minimized');
+
+        const isMinimized = document.body.classList.contains('sidebar-minimized');
+        const icon = desktopToggleBtn.querySelector('i');
+
+        if (icon) {
+            icon.className = isMinimized
+                ? 'bi bi-chevron-bar-right'
+                : 'bi bi-chevron-bar-left';
+        }
+
+        // Update tooltip title
+        desktopToggleBtn.setAttribute('title',
+            isMinimized ? 'Expand Sidebar' : 'Minimize Sidebar');
+
+        // Simpan state
+        localStorage.setItem('sidebarMinimized', isMinimized);
+
+        // Trigger resize untuk chart
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 300);
+    });
+}
     // -----------------------------------------------------------------
     // 7. Fullscreen Toggle Interaction
     // -----------------------------------------------------------------

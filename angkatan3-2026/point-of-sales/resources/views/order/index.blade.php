@@ -28,17 +28,19 @@
                 <td><span class="badge bg-info text-dark">{{ strtoupper($order->payment_method ?? 'Cash') }}</span></td>
                 <td>Rp. {{ number_format($order->order_amount, 0, ',', '.') }}</td>
                 <td>
-                    @if($order->status == 1)
-                    <span class="badge bg-success">Success</span>
-                    @else
+                    @if($order->order_status === 'completed')
+                    <span class="badge bg-success">Completed</span>
+                    @elseif($order->order_status === 'pending')
                     <span class="badge bg-warning text-dark">Pending</span>
+                    @else
+                    <span class="badge bg-danger">Cancelled</span>
                     @endif
                 </td>
                 <td>
                     <ul class="mb-0 ps-3">
                         @foreach($order->orderDetails as $detail)
                         <li>
-                            {{ $detail->product->name ?? 'Product Deleted' }}
+                            {{ $detail->product?->product_name ?? 'Produk Tidak Ditemukan' }}
                             (x{{ $detail->order_qty }})
                         </li>
                         @endforeach

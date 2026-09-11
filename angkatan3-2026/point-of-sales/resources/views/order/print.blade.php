@@ -52,7 +52,7 @@
     <div class="line"></div>
     <div>Tanggal : {{ $order->created_at->format('d/m/Y H:i') }}</div>
     <div>Code : {{ $order->order_code }}</div>
-    <div>Metode : {{ strtoupper($order->status === 1 ? 'CASH' : 'MIDTRANS') }}</div>
+    <div>Metode : {{ strtoupper($order->payment_method ?? 'CASH') }}</div>
     <div class="line"></div>
 
     {{-- Hitung Subtotal & Pajak --}}
@@ -67,7 +67,7 @@
     <table>
         @foreach ($order->orderDetails as $detail)
         <tr>
-            <td><strong>{{ $detail->product->product_name }}</strong></td>
+            <td><strong>{{ $detail->product?->product_name ?? 'Produk Tidak Ditemukan' }}</strong></td>
         </tr>
         <tr>
             <td>{{ $detail->order_qty }} × Rp. {{ number_format($detail->order_price, 0, ',', '.') }}</td>

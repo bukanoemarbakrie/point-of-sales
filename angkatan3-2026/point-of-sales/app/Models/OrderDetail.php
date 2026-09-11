@@ -14,15 +14,18 @@ class OrderDetail extends Model
         'order_subtotal'
     ];
 
-    // Relasi ke Order
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
-    // Relasi ke Product
+    // ← PASTIKAN RELASI INI ADA DAN BENAR
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id', 'id')
+            ->withDefault([
+                'product_name' => 'Product Not Found',
+                'product_price' => 0,
+            ]);
     }
 }

@@ -17,7 +17,6 @@
 
     <!-- ==========================================
         START: Sidebar Component
-        Highly polished, dark-green navigation
         ========================================== -->
     <div class="sidebar-wrapper" id="sidebar">
         <!-- Brand Logo / Identity -->
@@ -71,55 +70,32 @@
                 </ul>
             </div>
 
-            <!-- Group: Components -->
+            <!-- Group: Laporan (Admin & Pimpinan) -->
+            @if(Auth::user() && (Auth::user()->isAdmin() || Auth::user()->isLeader()))
             <div class="sidebar-menu-section">
-                <div class="sidebar-menu-title">Components</div>
+                <div class="sidebar-menu-title">Laporan</div>
                 <ul class="sidebar-menu-list">
                     <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link" id="menu-basictables" title="Basic Tables">
-                            <i class="bi bi-table"></i>
-                            <span>Basic Tables</span>
+                        <a href="{{ route('report.daily') }}" class="sidebar-menu-link {{ request()->routeIs('report.daily') ? 'active' : '' }}">
+                            <i class="bi bi-calendar-day"></i>
+                            <span>Laporan Harian</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link" id="menu-uiforms" title="Forms and Input">
-                            <i class="bi bi-input-cursor-text"></i>
-                            <span>Forms & Input</span>
+                        <a href="{{ route('report.weekly') }}" class="sidebar-menu-link {{ request()->routeIs('report.weekly') ? 'active' : '' }}">
+                            <i class="bi bi-calendar-week"></i>
+                            <span>Laporan Mingguan</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link" id="menu-uibuttons" title="Buttons">
-                            <i class="bi bi-menu-button-wide-fill"></i>
-                            <span>Buttons & Alerts</span>
+                        <a href="{{ route('report.monthly') }}" class="sidebar-menu-link {{ request()->routeIs('report.monthly') ? 'active' : '' }}">
+                            <i class="bi bi-calendar-month"></i>
+                            <span>Laporan Bulanan</span>
                         </a>
                     </li>
                 </ul>
             </div>
-
-            <!-- Group: Pages -->
-            <div class="sidebar-menu-section">
-                <div class="sidebar-menu-title">Pages</div>
-                <ul class="sidebar-menu-list">
-                    <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link" id="menu-blankpage" title="Blank Page">
-                            <i class="bi bi-file-earmark"></i>
-                            <span>Blank Page</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item">
-                        <a href="{{ route('login') }}" class="sidebar-menu-link" id="menu-loginpage" title="Login Page">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            <span>Login Screen</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link" id="menu-404" title="404 Page">
-                            <i class="bi bi-slash-circle"></i>
-                            <span>Error 404</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            @endif
         </div>
 
         <!-- Sidebar Profile Card (Dynamic Footer) -->
@@ -147,8 +123,11 @@
             <div class="navbar-left">
                 <!-- Desktop sidebar toggle (visible on large screens only) -->
                 <button class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3"
-                    id="desktop-sidebar-toggle" aria-label="Minimize Sidebar">
-                    <i class="bi bi-chevron-bar-left"></i>
+                    id="desktop-sidebar-toggle"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Minimize Sidebar">
+                    <i class="bi bi-layout-sidebar-inset"></i>
                 </button>
                 <!-- Mobile sidebar toggle -->
                 <button class="sidebar-toggle-btn me-2" id="sidebar-toggle" aria-label="Toggle Navigation">
@@ -189,6 +168,8 @@
                 <button class="navbar-action-btn me-1" aria-label="Toggle Fullscreen" id="btn-fullscreen">
                     <i class="bi bi-arrows-fullscreen"></i>
                 </button>
+
+                <!-- Notifications -->
                 <div class="dropdown">
                     <button class="navbar-action-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false" id="btn-notifications" data-bs-auto-close="outside">
@@ -202,7 +183,6 @@
                             <button class="btn-clear-all" type="button">Mark all read</button>
                         </div>
                         <div class="notification-list">
-                            <!-- Sale Notification -->
                             <a href="#" class="notification-item">
                                 <div class="notification-icon bg-success text-white">
                                     <i class="bi bi-wallet2"></i>
@@ -213,7 +193,6 @@
                                 </div>
                                 <span class="notification-unread-dot"></span>
                             </a>
-                            <!-- User Registration Notification -->
                             <a href="#" class="notification-item">
                                 <div class="notification-icon bg-primary text-white">
                                     <i class="bi bi-person-plus-fill"></i>
@@ -224,16 +203,6 @@
                                 </div>
                                 <span class="notification-unread-dot"></span>
                             </a>
-                            <!-- Low Stock Notification -->
-                            <a href="#" class="notification-item">
-                                <div class="notification-icon bg-warning text-dark">
-                                    <i class="bi bi-box-seam-fill"></i>
-                                </div>
-                                <div class="notification-content">
-                                    <p class="notification-text">Stock running low: <strong>Hoodie</strong></p>
-                                    <span class="notification-time">3 hours ago</span>
-                                </div>
-                            </a>
                         </div>
                         <a href="#" class="notification-footer">View All Notifications</a>
                     </div>
@@ -243,7 +212,8 @@
                 <div class="dropdown ms-2">
                     <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false" id="profile-dropdown">
-                        <img src="{{ asset('assets/assets/images/avatar.png') }}" alt="Profile Image" class="navbar-profile-img">
+                        <img src="{{ asset('assets/images/avatar.png') }}" alt="Profile Image" class="navbar-profile-img"
+                            onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
                         <span class="navbar-profile-name d-none d-md-inline">{{ Auth::user()->name ?? 'Administrator' }}</span>
                         <i class="bi bi-chevron-down navbar-profile-caret"></i>
                     </button>
@@ -273,15 +243,17 @@
         @yield('content')
         <!-- END: Content Area -->
 
+        <!-- START: Footer -->
         <footer class="footer-custom">
             <div class="footer-left">
                 <span class="footer-logo">
                     <i class="bi bi-asterisk"></i> Spark Admin
                 </span>
                 <span class="footer-separator">|</span>
-                <span class="footer-copy">&copy; 2026 Made with <i class="bi bi-heart-fill text-danger footer-heart"></i> by<a
-                        href="https://sparkadminpro.gumroad.com/" target="_blank">Spark Admin</a>• Distributed by <a
-                        href="https://www.themewagon.com/" target="_blank">ThemeWagon</a> </span>
+                <span class="footer-copy">&copy; 2026 Made with <i class="bi bi-heart-fill text-danger footer-heart"></i> by
+                    <a href="https://sparkadminpro.gumroad.com/" target="_blank">Spark Admin</a> • Distributed by
+                    <a href="https://www.themewagon.com/" target="_blank">ThemeWagon</a>
+                </span>
             </div>
             <div class="footer-right">
                 <ul class="footer-links">
@@ -292,12 +264,21 @@
                 </ul>
             </div>
         </footer>
+        <!-- END: Footer -->
 
     </div>
+    <!-- ==========================================
+        END: Main Content Area
+        ========================================== -->
 
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Local dashboard interactions controller -->
-    <script src="assets/js/dashboard.js"></script>
+    <!-- ==========================================
+        START: Scripts
+        ========================================== -->
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <!-- ==========================================
+        END: Scripts
+        ========================================== -->
 </body>
 
 </html>

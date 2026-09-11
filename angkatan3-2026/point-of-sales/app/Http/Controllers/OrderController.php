@@ -77,6 +77,7 @@ class OrderController extends Controller
                 $tax = $subtotal * 0.10;
                 $totalAmount = $subtotal + $tax;
 
+                // ← PERBAIKAN: gunakan order_status dengan ENUM
                 $order = Order::create([
                     'order_code' => 'ORD-' . strtoupper(Str::random(8)),
                     'customer_name' => $request->customer_name ?? 'Guest',
@@ -104,24 +105,32 @@ class OrderController extends Controller
 
             $snapToken = null;
 
+            // ============================================
+            // MIDTRANS SNAP TOKEN
+            // ============================================
             if ($paymentMethod === 'midtrans') {
-                Config::$serverKey = config('services.midtrans.server_key');
+                Config::$serverKey    = config('services.midtrans.server_key');
                 Config::$isProduction = config('services.midtrans.is_production', false);
-                Config::$isSanitized = true;
-                Config::$is3ds = true;
+                Config::$isSanitized  = config('services.midtrans.is_sanitized', true);
+                Config::$is3ds        = config('services.midtrans.is_3ds', true);
 
                 $params = [
                     'transaction_details' => [
-                        'order_id' => $order->order_code,
+                        'order_id'     => $order->order_code,
                         'gross_amount' => (int) round($order->order_amount),
                     ],
                     'customer_details' => [
                         'first_name' => $request->customer_name ?? 'Customer',
                     ],
-                    'enabled_payments' => ['gopay', 'qris'],
+                    'enabled_payments' => ['gopay', 'qris', 'shopeepay', 'bank_transfer'],
                 ];
 
-                $snapToken = Snap::getSnapToken($params);
+                try {
+                    $snapToken = Snap::getSnapToken($params);
+                } catch (\Exception $e) {
+                    \Log::error('Midtrans Error: ' . $e->getMessage());
+                    throw new Exception('Gagal mendapatkan Snap Token: ' . $e->getMessage());
+                }
             }
 
             return response()->json([
@@ -166,5 +175,27 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->to('order')->with('success', 'Order deleted successfully');
+    }
+
+    public function callback(Request $request)
+    {
+        $serverKey = config('services.midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+
+        if ($hashed == $request->signature_key) {
+            $order = Order::where('order_code', $request->order_id)->first();
+
+            if ($order) {
+                if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
+                    $order->update(['order_status' => 'completed']);
+                } elseif ($request->transaction_status == 'pending') {
+                    $order->update(['order_status' => 'pending']);
+                } elseif (in_array($request->transaction_status, ['deny', 'expire', 'cancel'])) {
+                    $order->update(['order_status' => 'cancelled']);
+                }
+            }
+        }
+
+        return response()->json(['status' => 'ok']);
     }
 }
