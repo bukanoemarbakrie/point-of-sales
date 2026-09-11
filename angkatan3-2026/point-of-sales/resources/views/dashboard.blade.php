@@ -1,7 +1,7 @@
 @extends('app')
 @section('content')
 
-<!-- START: Page Header -->
+{{-- START: Page Header --}}
 <div class="page-header">
     <div>
         <h1 class="page-title">Dashboard</h1>
@@ -11,11 +11,13 @@
         </p>
     </div>
 </div>
-<!-- END: Page Header -->
+{{-- END: Page Header --}}
 
+{{-- ============================================ --}}
+{{-- DASHBOARD ADMINISTRATOR & PIMPINAN --}}
+{{-- ============================================ --}}
 @if($user->isAdmin() || $user->isLeader())
 
-{{-- ROW 1: Statistik --}}
 <div class="row g-4 mb-4">
     <div class="col-md-3 col-sm-6">
         <div class="card border-0 shadow-sm p-3 h-100">
@@ -74,16 +76,16 @@
     </div>
 </div>
 
-{{-- ROW 2: Chart & Stok Rendah --}}
 <div class="row g-4 mb-4">
     <div class="col-md-8">
         <div class="card border-0 shadow-sm p-3 h-100">
             <h5 class="fw-bold mb-3">Penjualan 7 Hari Terakhir</h5>
-            <canvas id="salesChart"
-                height="100"
-                data-labels="{{ ($salesChart ?? collect())->pluck('date')->toJson() }}"
-                data-values="{{ ($salesChart ?? collect())->pluck('total')->toJson() }}">
-            </canvas>
+            <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
+                <canvas id="salesChart"
+                    data-labels="{{ ($salesChart ?? collect())->pluck('date')->toJson() }}"
+                    data-values="{{ ($salesChart ?? collect())->pluck('total')->toJson() }}">
+                </canvas>
+            </div>
         </div>
     </div>
 
@@ -102,7 +104,6 @@
     </div>
 </div>
 
-{{-- ROW 3: Transaksi Terbaru --}}
 <div class="card border-0 shadow-sm p-3">
     <h5 class="fw-bold mb-3">Transaksi Terbaru</h5>
     <div class="table-responsive">
@@ -136,6 +137,9 @@
 @endif
 {{-- END: Administrator & Pimpinan --}}
 
+{{-- ============================================ --}}
+{{-- DASHBOARD KASIR --}}
+{{-- ============================================ --}}
 @if($user->isCashier())
 
 <div class="row g-4 mb-4">

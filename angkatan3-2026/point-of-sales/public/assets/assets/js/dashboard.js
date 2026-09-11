@@ -353,13 +353,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // -----------------------------------------------------------------
 const desktopToggleBtn = document.querySelector('#desktop-sidebar-toggle');
 if (desktopToggleBtn) {
-    // Restore state dari localStorage
-    if (localStorage.getItem('sidebarMinimized') === 'true') {
-        document.body.classList.add('sidebar-minimized');
-        const icon = desktopToggleBtn.querySelector('i');
-        if (icon) icon.className = 'bi bi-chevron-bar-right';
-    }
-
     desktopToggleBtn.addEventListener('click', function () {
         document.body.classList.toggle('sidebar-minimized');
 
@@ -375,9 +368,6 @@ if (desktopToggleBtn) {
         // Update tooltip title
         desktopToggleBtn.setAttribute('title',
             isMinimized ? 'Expand Sidebar' : 'Minimize Sidebar');
-
-        // Simpan state
-        localStorage.setItem('sidebarMinimized', isMinimized);
 
         // Trigger resize untuk chart
         setTimeout(() => {

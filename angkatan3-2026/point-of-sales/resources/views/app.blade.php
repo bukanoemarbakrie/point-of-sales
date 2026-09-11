@@ -98,24 +98,36 @@
             @endif
         </div>
 
-        <!-- Sidebar Profile Card (Dynamic Footer) -->
-        <div class="sidebar-profile">
-            <img src="{{ asset('assets/images/avatar.png') }}" alt="Administrator" class="sidebar-profile-img"
-                onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
-            <div class="sidebar-profile-info">
-                <div class="sidebar-profile-name">{{ Auth::user()->name ?? 'Administrator' }}</div>
-                <div class="sidebar-profile-email">{{ Auth::user()->email ?? 'admin@email.com' }}</div>
+        <!-- Sidebar Footer (Profile + Logout) -->
+        <div class="sidebar-footer">
+            <!-- Profile Card -->
+            <div class="sidebar-profile">
+                <img src="{{ asset('assets/assets/images/avatar.png') }}" alt="Administrator" class="sidebar-profile-img"
+                    onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
+                <div class="sidebar-profile-info">
+                    <div class="sidebar-profile-name">{{ Auth::user()->name ?? 'Administrator' }}</div>
+                    <div class="sidebar-profile-email">{{ Auth::user()->email ?? 'admin@email.com' }}</div>
+                </div>
             </div>
+
+            <!-- Logout Button -->
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-logout-sidebar"
+                    onclick="return confirm('Yakin ingin logout?')">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
         </div>
-    </div>
-    <!-- ==========================================
+        <!-- ==========================================
         END: Sidebar Component
         ========================================== -->
-
+    </div>
 
     <!-- ==========================================
-        START: Main Content Area
-        ========================================== -->
+    START: Main Content Area
+    ========================================== -->
     <div class="main-wrapper">
 
         <!-- START: Top Navbar Component -->
@@ -212,7 +224,7 @@
                 <div class="dropdown ms-2">
                     <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false" id="profile-dropdown">
-                        <img src="{{ asset('assets/images/avatar.png') }}" alt="Profile Image" class="navbar-profile-img"
+                        <img src="{{ asset('assets/assets/images/avatar.png') }}" alt="Profile Image" class="navbar-profile-img"
                             onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
                         <span class="navbar-profile-name d-none d-md-inline">{{ Auth::user()->name ?? 'Administrator' }}</span>
                         <i class="bi bi-chevron-down navbar-profile-caret"></i>
@@ -226,7 +238,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <form action="{{ route('logout') }}" method="POST">
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
                                 @csrf
                                 <button type="submit" class="dropdown-item text-danger">
                                     <i class="bi bi-box-arrow-right"></i> Logout
@@ -274,8 +286,8 @@
     <!-- ==========================================
         START: Scripts
         ========================================== -->
-    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/assets/js/dashboard.js') }}"></script>
     <!-- ==========================================
         END: Scripts
         ========================================== -->

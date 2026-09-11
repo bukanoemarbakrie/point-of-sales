@@ -8,7 +8,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\MenuController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -29,37 +28,38 @@ Route::post('/midtrans/callback', [OrderController::class, 'callback'])->name('m
 // Route yang membutuhkan autentikasi
 Route::middleware('auth')->group(function () {
 
-    // ============================================
     // DASHBOARD - Semua role bisa akses
-    // ============================================
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    // ============================================
+    // PRODUCT - Lihat Stok (Semua role kecuali Guest)
+    // Kasir, Pimpinan, Administrator bisa lihat index product
+    Route::middleware('role:Administrator,Cashier,Leader')->group(function () {
+        Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+        Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+    });
+
     // MASTER DATA - Hanya Administrator
-    // ============================================
     Route::middleware('role:Administrator')->group(function () {
+        // User, Category, Role - Full CRUD
         Route::resource('user', UserController::class);
         Route::resource('category', CategoryController::class);
         Route::resource('role', RoleController::class);
-        Route::resource('product', ProductController::class);
+
+        // Product - CRUD (kecuali index & show yang sudah di atas)
+        Route::resource('product', ProductController::class)->except(['index', 'show']);
     });
 
-    // ============================================
     // TRANSAKSI - Administrator & Kasir
-    // ============================================
     Route::middleware('role:Administrator,Cashier')->group(function () {
         Route::resource('order', OrderController::class);
         Route::get('/order/{id}/print', [OrderController::class, 'printReceipt'])->name('order.print');
     });
 
-    // ============================================
     // LAPORAN - Administrator & Pimpinan
-    // ============================================
     Route::middleware('role:Administrator,Leader')->group(function () {
         Route::get('/report/daily', [ReportController::class, 'daily'])->name('report.daily');
         Route::get('/report/weekly', [ReportController::class, 'weekly'])->name('report.weekly');
         Route::get('/report/monthly', [ReportController::class, 'monthly'])->name('report.monthly');
-        Route::get('/report/export-pdf', [ReportController::class, 'exportPdf'])->name('report.export-pdf');
     });
 
     // Logout

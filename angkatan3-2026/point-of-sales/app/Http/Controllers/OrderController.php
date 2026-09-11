@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -77,7 +78,6 @@ class OrderController extends Controller
                 $tax = $subtotal * 0.10;
                 $totalAmount = $subtotal + $tax;
 
-                // ← PERBAIKAN: gunakan order_status dengan ENUM
                 $order = Order::create([
                     'order_code' => 'ORD-' . strtoupper(Str::random(8)),
                     'customer_name' => $request->customer_name ?? 'Guest',
@@ -128,7 +128,7 @@ class OrderController extends Controller
                 try {
                     $snapToken = Snap::getSnapToken($params);
                 } catch (\Exception $e) {
-                    \Log::error('Midtrans Error: ' . $e->getMessage());
+                    Log::error('Midtrans Error: ' . $e->getMessage());   // ← Tanpa backslash
                     throw new Exception('Gagal mendapatkan Snap Token: ' . $e->getMessage());
                 }
             }

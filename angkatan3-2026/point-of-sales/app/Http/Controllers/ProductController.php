@@ -96,6 +96,12 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', 'Product updated successfully!');
     }
 
+    public function show(string $id)
+    {
+        $title = "Detail Product";
+        $product = Product::with('category')->findOrFail($id);
+        return view('product.show', compact('title', 'product'));
+    }
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

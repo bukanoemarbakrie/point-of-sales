@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -15,7 +14,8 @@ class DashboardController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         // ============================================
         // DATA UMUM (semua role)
@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $recentOrders = collect();
         $salesChart = collect();
 
-        if ($user->isAdmin() || $user->isLeader()) {
+        if ($user && ($user->isAdmin() || $user->isLeader())) {
             // Penjualan hari ini
             $todaySales = Order::whereDate('created_at', Carbon::today())
                 ->where('order_status', 'completed')
@@ -86,7 +86,7 @@ class DashboardController extends Controller
         $myTodayOrders = 0;
         $myTodaySales = 0;
 
-        if ($user->isCashier()) {
+        if ($user && $user->isCashier()) {
             $myTodayOrders = Order::whereDate('created_at', Carbon::today())
                 ->where('order_status', 'completed')
                 ->count();

@@ -3203,5 +3203,114 @@ span.flatpickr-weekday {
     color: var(--brand-lime) !important;
 }
 
+/* ---------------------------------------------------------------------
+   25. Sidebar Footer (Profile + Logout)
+--------------------------------------------------------------------- */
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
+.sidebar-footer .sidebar-profile {
+    margin-top: 0;
+}
+
+/* Logout Button di Sidebar */
+.btn-logout-sidebar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-lg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-logout-sidebar:hover {
+    background-color: #EF4444;
+    color: #FFFFFF;
+    border-color: #EF4444;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-logout-sidebar i {
+    font-size: 1rem;
+    transition: transform 0.25s ease;
+}
+
+.btn-logout-sidebar:hover i {
+    transform: translateX(3px);
+}
+
+.btn-logout-sidebar:active {
+    transform: translateY(0);
+}
+
+/* Minimized Sidebar */
+body.sidebar-minimized .btn-logout-sidebar span {
+    display: none;
+}
+
+body.sidebar-minimized .btn-logout-sidebar {
+    padding: 0.65rem;
+    justify-content: center;
+}
+
+/* ---------------------------------------------------------------------
+   26. Dropdown Profile - Logout Button
+--------------------------------------------------------------------- */
+.dropdown-menu-profile .dropdown-item.text-danger {
+    color: #EF4444 !important;
+    font-weight: 600;
+}
+
+.dropdown-menu-profile .dropdown-item.text-danger:hover {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #DC2626 !important;
+}
+
+.dropdown-menu-profile .dropdown-item.text-danger i {
+    color: #EF4444 !important;
+}
+
+.dropdown-menu-profile .dropdown-item.text-danger:hover i {
+    color: #DC2626 !important;
+}
+
+/* Form di dalam dropdown */
+.dropdown-menu-profile form {
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu-profile form button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------
+   27. Chart Container (Fix Scroll Issue)
+--------------------------------------------------------------------- */
+.chart-container {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+
+#salesChart {
+    max-height: 320px !important;
+}
 
