@@ -2,6 +2,17 @@
 @section('content')
 <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
     @csrf
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>Gagal menyimpan produk:</strong>
+
+        <ul class="mb-0 mt-2">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="mb-3">
         <label class="form-label">Category</label>
         <select name="category_id" class="form-control" required>
@@ -23,10 +34,26 @@
         <label class="form-label">Qty</label>
         <input type="number" class="form-control" name="qty" min="0" value="0" required>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Photo</label>
-        <input type="file" class="form-control" name="product_photo">
-    </div>
+<div class="mb-3">
+    <label class="form-label">Photo</label>
+
+    <input
+        type="file"
+        class="form-control @error('product_photo') is-invalid @enderror"
+        name="product_photo"
+        accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif"
+    >
+
+    @error('product_photo')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
+
+    <small class="text-muted">
+        JPG, JPEG, PNG, GIF — maksimal 2 MB
+    </small>
+</div>
     <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea class="form-control" name="product_description"></textarea>

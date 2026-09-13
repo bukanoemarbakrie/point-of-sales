@@ -31,11 +31,16 @@ Route::middleware('auth')->group(function () {
     // DASHBOARD - Semua role bisa akses
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    // PRODUCT - Lihat Stok (Semua role kecuali Guest)
-    // Kasir, Pimpinan, Administrator bisa lihat index product
+    // PRODUCT - Lihat stok untuk semua role yang diizinkan
+    // Index + show untuk Administrator, Cashier, Leader
     Route::middleware('role:Administrator,Cashier,Leader')->group(function () {
         Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-        Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+
+        // Batasi parameter product menjadi angka agar /product/create
+        // tidak tertangkap oleh route show.
+        Route::get('/product/{product}', [ProductController::class, 'show'])
+            ->whereNumber('product')
+            ->name('product.show');
     });
 
     // MASTER DATA - Hanya Administrator
@@ -45,7 +50,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('category', CategoryController::class);
         Route::resource('role', RoleController::class);
 
-        // Product - CRUD (kecuali index & show yang sudah di atas)
+        // Product - create/store/edit/update/destroy
+        // /product/create sekarang tidak akan bentrok dengan /product/{product}
         Route::resource('product', ProductController::class)->except(['index', 'show']);
     });
 

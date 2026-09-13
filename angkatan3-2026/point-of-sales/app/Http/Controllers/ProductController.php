@@ -102,6 +102,7 @@ class ProductController extends Controller
         $product = Product::with('category')->findOrFail($id);
         return view('product.show', compact('title', 'product'));
     }
+
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

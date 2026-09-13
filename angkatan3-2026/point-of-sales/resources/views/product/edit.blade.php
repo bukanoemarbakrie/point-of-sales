@@ -17,7 +17,7 @@
 <!-- END: Page Header Banner -->
 
 <div class="card border-light shadow-sm p-4">
-    <h5 class="card-title mb-4">Edit Product: <span class="text-primary">{{ $product->name }}</span></h5>
+    <h5 class="card-title mb-4">Edit Product: <span class="text-primary">{{ $product->product_name }}</span></h5>
 
     <form action="{{ route('product.update', $product->id) }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -30,7 +30,7 @@
                 <option value="">Select Category</option>
                 @foreach ($categories as $category)
                 <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                    {{ $category->name }}
+                    {{ $category->category_name }}
                 </option>
                 @endforeach
             </select>
@@ -43,13 +43,13 @@
         <div class="mb-3">
             <label for="name" class="form-label fw-bold">Product Name <span class="text-danger">*</span></label>
             <input type="text"
-                name="name"
-                id="name"
-                class="form-control @error('name') is-invalid @enderror"
+                name="product_name"
+                id="product_name"
+                class="form-control @error('product_name') is-invalid @enderror"
                 placeholder="Enter product name"
-                value="{{ old('name', $product->name) }}"
+                value="{{ old('product_name', $product->product_name) }}"
                 required>
-            @error('name')
+            @error('product_name')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
@@ -60,16 +60,16 @@
             <div class="input-group">
                 <span class="input-group-text">Rp</span>
                 <input type="number"
-                    name="price"
-                    id="price"
-                    class="form-control @error('price') is-invalid @enderror"
+                    name="product_price"
+                    id="product_price"
+                    class="form-control @error('product_price') is-invalid @enderror"
                     placeholder="0"
-                    value="{{ old('price', $product->price) }}"
+                    value="{{ old('product_price', $product->product_price) }}"
                     step="1000"
                     min="0"
                     required>
             </div>
-            @error('price')
+            @error('product_price')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
@@ -91,12 +91,12 @@
         </div>
 
         <!-- Current Photo -->
-        @if($product->photo)
+        @if($product->product_photo)
         <div class="mb-3">
             <label class="form-label fw-bold">Current Photo</label>
             <div>
-                <img src="{{ asset('storage/' . $product->photo) }}"
-                    alt="{{ $product->name }}"
+                <img src="{{ asset('storage/' . $product->product_photo) }}"
+                    alt="{{ $product->product_name }}"
                     width="150"
                     height="150"
                     style="object-fit: cover; border-radius: 8px; border: 2px solid #ddd;">
@@ -108,12 +108,12 @@
         <div class="mb-3">
             <label for="photo" class="form-label fw-bold">Change Photo</label>
             <input type="file"
-                name="photo"
-                id="photo"
-                class="form-control @error('photo') is-invalid @enderror"
+                name="product_photo"
+                id="product_photo"
+                class="form-control @error('product_photo') is-invalid @enderror"
                 accept="image/*">
             <small class="text-muted">Leave blank to keep current photo. Allowed formats: JPG, PNG, JPEG, GIF. Max size: 2MB</small>
-            @error('photo')
+            @error('product_photo')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
@@ -121,12 +121,12 @@
         <!-- Description -->
         <div class="mb-3">
             <label for="description" class="form-label fw-bold">Description</label>
-            <textarea name="description"
-                id="description"
-                class="form-control @error('description') is-invalid @enderror"
+            <textarea name="product_description"
+                id="product_description"
+                class="form-control @error('product_description') is-invalid @enderror"
                 rows="4"
-                placeholder="Enter product description">{{ old('description', $product->description) }}</textarea>
-            @error('description')
+                placeholder="Enter product description">{{ old('product_description', $product->product_description) }}</textarea>
+            @error('product_description')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
