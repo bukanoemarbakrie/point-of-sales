@@ -103,6 +103,7 @@
                 <button class="btn btn-dark" onclick="emptyCart()">Empty Cart</button>
             </div>
             <div class="row g-5 mb-5">
+                {{-- Card 1: Today's Transaction --}}
                 <div class="col-md-4">
                     <div class="card shadow p-3">
                         <div class="d-flex align-items-center gap-3">
@@ -111,33 +112,37 @@
                             </div>
                             <div>
                                 <small class="text-muted">Today's Transaction</small>
-                                <h4 class="mb-0 fw-bold">10</h4>
+                                <h4 class="mb-0 fw-bold">{{ $todayTransactions }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {{-- Card 2: Today's Sales --}}
                 <div class="col-md-4">
                     <div class="card shadow p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div>
-                                <i class="bi bi-cart" style="font-size: 2rem"></i>
+                                <i class="bi bi-cash-stack" style="font-size: 2rem"></i>
                             </div>
                             <div>
                                 <small class="text-muted">Today's Sales</small>
-                                <h4 class="mb-0 fw-bold">Rp. 10.000.000,-</h4>
+                                <h4 class="mb-0 fw-bold">Rp. {{ number_format($todaySales, 0, ',', '.') }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {{-- Card 3: Product Sold --}}
                 <div class="col-md-4">
                     <div class="card shadow p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div>
-                                <i class="bi bi-cart" style="font-size: 2rem"></i>
+                                <i class="bi bi-box-seam" style="font-size: 2rem"></i>
                             </div>
                             <div>
                                 <small class="text-muted">Product Sold</small>
-                                <h4 class="mb-0 fw-bold">100</h4>
+                                <h4 class="mb-0 fw-bold">{{ $productSold }}</h4>
                             </div>
                         </div>
                     </div>
@@ -618,11 +623,22 @@
 
                 window.snap.pay(result.snap_token, {
                     onSuccess: function(snapResult) {
-                        isProcessingPayment = false;
-                        alert('Pembayaran Berhasil!');
+                        if (sessionStorage.getItem('midtrans_paid_' + result.order_id)) {
+                            return;
+                        }
+                        sessionStorage.setItem('midtrans_paid_' + result.order_id, 'true');
 
-                        // SOLUSI: Gunakan redirect langsung ke halaman struk (Anti-Blocker)
-                        window.location.href = `/order/${result.order_id}/print`;
+                        isProcessingPayment = false;
+
+                        window.open(`/order/${result.order_id}/print`, '_blank');
+
+                        cart = [];
+                        emptyCart();
+
+                        setTimeout(function() {
+                            alert('Pembayaran Midtrans Berhasil!');
+                            window.location.assign("{{ route('order.create') }}");
+                        }, 500);
                     },
                     onPending: function(snapResult) {
                         isProcessingPayment = false;

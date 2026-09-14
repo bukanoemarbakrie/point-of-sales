@@ -26,13 +26,40 @@ class OrderController extends Controller
     public function create()
     {
         $title = "Point of Sales";
+
+        // Filter data
         $categories = Category::where('is_active', 1)->get();
         $products = Product::with('category')
             ->where('is_active', 1)
             ->where('qty', '>', 0)
             ->orderBy('id')
             ->get();
-        return view('order.create', compact('title', 'categories', 'products'));
+
+        // STATISTIK HARI INI (REAL DATA)
+        $today = \Carbon\Carbon::today();
+
+        $todayTransactions = Order::whereDate('created_at', $today)
+            ->where('order_status', 'completed')
+            ->count();
+
+        $todaySales = Order::whereDate('created_at', $today)
+            ->where('order_status', 'completed')
+            ->sum('order_amount');
+
+        $productSold = OrderDetail::whereHas('order', function ($query) use ($today) {
+            $query->whereDate('created_at', $today)
+                ->where('order_status', 'completed');
+        })
+            ->sum('order_qty');
+
+        return view('order.create', compact(
+            'title',
+            'categories',
+            'products',
+            'todayTransactions',
+            'todaySales',
+            'productSold'
+        ));
     }
 
     public function store(Request $request)
